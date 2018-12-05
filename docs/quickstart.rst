@@ -29,7 +29,7 @@ Install from `PyPI`_:
 
   ::
 
-    $ pipenv install --pre vistir
+    $ pipenv install vistir
 
 Install from `Github`_:
 
@@ -113,11 +113,14 @@ Shims are provided for full API compatibility from python 2.7 through 3.7 for th
     * :class:`~vistir.compat.JSONDecodeError`
     * :exc:`~vistir.compat.ResourceWarning`
     * :exc:`~vistir.compat.FileNotFoundError`
+    * :exc:`~vistir.compat.PermissionError`
+    * :exc:`~vistir.compat.IsADirectoryError`
 
 The following additional function is provided for encoding strings to the filesystem
 defualt encoding:
 
     * :func:`~vistir.compat.fs_str`
+    * :func:`~vistir.compat.to_native_string`
 
 
 🐉 Context Managers
@@ -418,6 +421,8 @@ with some additional hackery on linux systems.
 
 **vistir** provides utilities for interacting with filesystem paths:
 
+    * :func:`vistir.path.normalize_path`
+    * :func:`vistir.path.is_in_path`
     * :func:`vistir.path.get_converted_relative_path`
     * :func:`vistir.path.handle_remove_readonly`
     * :func:`vistir.path.is_file_url`
@@ -433,6 +438,34 @@ with some additional hackery on linux systems.
     * :func:`vistir.path.set_write_bit`
     * :func:`vistir.path.url_to_path`
     * :func:`vistir.path.walk_up`
+
+
+.. _`normalize_path`:
+
+**normalize_path**
+//////////////////
+
+Return a case-normalized absolute variable-expanded path.
+
+
+.. code:: python
+
+    >>> vistir.path.normalize_path("~/${USER}")
+    /home/user/user
+
+
+.. _`is_in_path`:
+
+**is_in_path**
+//////////////
+
+Determine if the provided full path is in the given parent root.
+
+
+.. code:: python
+
+    >>> vistir.path.is_in_path("~/.pyenv/versions/3.7.1/bin/python", "${PYENV_ROOT}/versions")
+    True
 
 
 .. _`get_converted_relative_path`:

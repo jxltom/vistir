@@ -76,7 +76,7 @@ You can import utilities directly from **vistir**:
 .. code:: python
 
     from vistir import cd
-    cd('/path/to/somedir'):
+    with cd('/path/to/somedir'):
         do_stuff_in('somedir')
 
 
@@ -113,11 +113,14 @@ Shims are provided for full API compatibility from python 2.7 through 3.7 for th
     * ``vistir.compat.JSONDecodeError``
     * ``vistir.compat.ResourceWarning``
     * ``vistir.compat.FileNotFoundError``
+    * ``vistir.compat.PermissionError``
+    * ``vistir.compat.IsADirectoryError``
 
-The following additional function is provided for encoding strings to the filesystem
-defualt encoding:
+The following additional functions are provided for encoding strings to the filesystem
+default encoding:
 
     * ``vistir.compat.fs_str``
+    * ``vistir.compat.to_native_string``
 
 
 🐉 Context Managers
@@ -158,7 +161,7 @@ middle under normal circumstances, your original file is already gone.
             ...
         RuntimeError: But did it get overwritten now?
     >>> read_test_file()
-        writing some new text
+    this is some test text
 
 
 .. _`cd`:
@@ -414,6 +417,8 @@ with some additional hackery on linux systems.
 **vistir** provides utilities for interacting with filesystem paths:
 
     * ``vistir.path.get_converted_relative_path``
+    * ``vistir.path.normalize_path``
+    * ``vistir.path.is_in_path``
     * ``vistir.path.handle_remove_readonly``
     * ``vistir.path.is_file_url``
     * ``vistir.path.is_readonly_path``
@@ -428,6 +433,34 @@ with some additional hackery on linux systems.
     * ``vistir.path.set_write_bit``
     * ``vistir.path.url_to_path``
     * ``vistir.path.walk_up``
+
+
+.. _`normalize_path`:
+
+**normalize_path**
+//////////////////
+
+Return a case-normalized absolute variable-expanded path.
+
+
+.. code:: python
+
+    >>> vistir.path.normalize_path("~/${USER}")
+    /home/user/user
+
+
+.. _`is_in_path`:
+
+**is_in_path**
+//////////////
+
+Determine if the provided full path is in the given parent root.
+
+
+.. code:: python
+
+    >>> vistir.path.is_in_path("~/.pyenv/versions/3.7.1/bin/python", "${PYENV_ROOT}/versions")
+    True
 
 
 .. _`get_converted_relative_path`:

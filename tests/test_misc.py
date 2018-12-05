@@ -74,17 +74,8 @@ def test_nonblocking_run():
     assert c.returncode == 0
     c.wait()
     assert "PYTHONDONTWRITEBYTECODE" in c.out, c.out
-    out, err = vistir.misc.run(["python", "--help"], block=False, nospin=True)
+    out, _ = vistir.misc.run(["python", "--help"], block=False, nospin=True)
     assert "PYTHONDONTWRITEBYTECODE" in out, out
-    # historical = []
-    # while out:
-    #     pos = out.find("\n")
-    #     if not pos:
-    #         historical.append(out)
-    #     line, _, out = out.partition("\n")
-    #     if line not in historical:
-    #         historical.append(line)
-    # assert any(["PYTHONHOME" in line for line in historical]), historical
 
 
 def test_load_path():
